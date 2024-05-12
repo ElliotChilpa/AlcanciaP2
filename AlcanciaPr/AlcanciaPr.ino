@@ -1,24 +1,38 @@
+// -------- Libreria para guardar los datos -------
+// #include <Wire.h> // Libreria para comunica
+// #include "RTClib.h" // Biblioteca para modulo RTC
+#include <EEPROM.h> // Libreria para almacenar datos en EEPROM
+
+// ------------ Asignamos Botones a utilizar ----------------
 const int senM1 = 2; // Define el pin del botón
 const int senM2 = 3; // Define el pin del botón
 const int senM5 = 4; // Define el pin del botón
 const int senM10 = 5; // Define el pin del botón
 const int ledPin = 13; // Define el pin del LED
 
-int valorSenM1 = 0; // Variable para almacenar el estado del botón
+// ------------ Variables para almacenar el estado del boton ----------
+int valorSenM1 = 0;
 int valorSenM2 = 0;
 int valorSenM5 = 0;
 int valorSenM10 = 0;
 
+// ------------ Variable para almacenar el valor a imprimir ----------
 int valor1 = 0; // Variable para almacenar el valor a imprimir
 int valor2 = 0; // Variable para almacenar el valor a imprimir
 int valor5 = 0; // Variable para almacenar el valor a imprimir
 int valor10 = 0; // Variable para almacenar el valor a imprimir
 
+// ----------- Variables para Almacenar en EEPROM -------------------
+int dirValor1 = 0;
+int dirValor2 = 3;
+
+// ----------- Variables de apoyo ----------------------
 int casoS = 0;
 
  
 void setup() {
-  pinMode(senM1, INPUT); // Configura el pin del botón como entrada
+  // --------- Setup para configurar Sensores de entrada --------------
+  pinMode(senM1, INPUT); 
   pinMode(senM2, INPUT);
   pinMode(senM5, INPUT);
   pinMode(senM10, INPUT);
@@ -26,6 +40,16 @@ void setup() {
   pinMode(ledPin, OUTPUT); // Configura el pin del LED como salida
 
   Serial.begin(9600);
+  
+  // ---------- SETUP  EEPROM ya mas de una vez -------------------------
+  // valorSenM1 = EEPROM.get(dirValor1, valor1);
+  // valorSenM2 = EEPROM.get(dirValor2, valor2);
+
+   ---------- SETUP para guardar datos EEPROM -------------------------
+   EEPROM.put(dirValor1, 0);
+  EEPROM.put(dirValor2, 0);
+
+  
 }
 
 void loop() 
@@ -62,8 +86,10 @@ void loop()
   case 1:
     digitalWrite(ledPin, HIGH); // Enciende el LED
     valor1++; // Incrementa el valor
+    EEPROM.put(dirValor1, valor1);
 
     Serial.print("Valor Moneda 1: "); // Imprime un mensaje
+    
 
     Serial.println(valor1); // Imprime el valor
     
