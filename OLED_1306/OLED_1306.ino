@@ -10,9 +10,6 @@
 #define OLED_CS 12
 #define OLED_RESET 13
 
-// ------- Pines para sensores ----
-
-
 Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
 
 void setup()
@@ -22,7 +19,6 @@ void setup()
     display.clearDisplay(); // Borrar imagen en el OLED
     display.setTextSize(0.5); // Tamaño del texto
     display.setTextColor(WHITE); // Definir color del texto (WHITE-BLACK)
-    
     //---- Presentación OLED -----
     display.setCursor(25,0); // Definir posición Columna (25) Fila (15)
     display.println("Alcancia"); // Carga la información al buffer
@@ -43,11 +39,6 @@ void setup()
 void loop() 
 {
     display.clearDisplay(); // Borrar imagen en el OLED
-
-    if ()
-    {
-        /* code */
-    }
     
     display.setTextSize(0.4);
     // ---- Monedas de 1 ----
@@ -62,6 +53,9 @@ void loop()
     // ---- Monedas de 10 ----
     display.setCursor(0,24); // Definir posición inicio texto Columna (0) Fila (15)
     display.println("Monedas 10:"); // Carga la información al buffer
+
+    display.setCursor(85, 0);
+    display.println("Total");
 
     display.display(); // Actualiza display con datos en Buffer
     delay(2000); // Demora de 2 segundos.
