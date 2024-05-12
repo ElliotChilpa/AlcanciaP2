@@ -10,6 +10,9 @@
 #define OLED_CS 12
 #define OLED_RESET 13
 
+// ------- Pines para sensores ----
+
+
 Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
 
 void setup()
@@ -40,6 +43,12 @@ void setup()
 void loop() 
 {
     display.clearDisplay(); // Borrar imagen en el OLED
+
+    if ()
+    {
+        /* code */
+    }
+    
     display.setTextSize(0.4);
     // ---- Monedas de 1 ----
     display.setCursor(0,0); // Definir posición Columna (0) Fila (0)
