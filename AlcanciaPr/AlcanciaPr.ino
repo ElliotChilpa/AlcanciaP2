@@ -1,6 +1,4 @@
 // -------- Libreria para guardar los datos -------
-// #include <Wire.h> // Libreria para comunica
-// #include "RTClib.h" // Biblioteca para modulo RTC
 #include <EEPROM.h> // Libreria para almacenar datos en EEPROM
 
 // ------------ Asignamos Botones a utilizar ----------------
@@ -9,12 +7,14 @@ const int senM2 = 3; // Define el pin del botón
 const int senM5 = 4; // Define el pin del botón
 const int senM10 = 5; // Define el pin del botón
 const int ledPin = 13; // Define el pin del LED
+const int senRESET = 6; // Definimos el pin para resetear
 
 // ------------ Variables para almacenar el estado del boton ----------
 int valorSenM1 = 0;
 int valorSenM2 = 0;
 int valorSenM5 = 0;
 int valorSenM10 = 0;
+int valorSenRESET = 0;
 
 // ------------ Variable para almacenar el valor a imprimir ----------
 int valor1 = 0; // Variable para almacenar el valor a imprimir
@@ -38,16 +38,29 @@ void setup() {
   pinMode(senM2, INPUT);
   pinMode(senM5, INPUT);
   pinMode(senM10, INPUT);
+  pinMode(senRESET, INPUT);
 
   pinMode(ledPin, OUTPUT); // Configura el pin del LED como salida
 
-  // ---------- SETUP  EEPROM ya mas de una vez -------------------------//
-   valor1 = EEPROM.get(dir1, valor1); // Aquí asignamos el valor que tenga EEPROM a valor
-   valor2 = EEPROM.get(dir2, valor2);
-
-  // ---------- SETUP para guardar datos EEPROM -------------------------
-   //EEPROM.put(dir1, 0);
-   //EEPROM.put(dir2, 0);
+  // ---------- SETUP  EEPROM -------------------------//
+  valorSenRESET = digitalRead(senRESET);
+  delay(100);
+  if (valorSenRESET == LOW) // Modificar conado tengamos el Switch
+  {
+    // ---------- SETUP para guardar datos EEPROM 0-------------------------
+    EEPROM.put(dir1, 0);
+    EEPROM.put(dir2, 0); 
+    EEPROM.put(dir5, 0); 
+    EEPROM.put(dir10, 0); 
+  }
+  else if (valorSenRESET == HIGH)
+  {
+    // ---------- SETUP  EEPROM ya mas de una vez -------------------------//
+    valor1 = EEPROM.get(dir1, valor1); // Aquí asignamos el valor que tenga EEPROM a valor
+    valor2 = EEPROM.get(dir2, valor2);
+    valor5 = EEPROM.get(dir5, valor5);
+    valor10 = EEPROM.get(dir10, valor10);
+  }
 
     Serial.begin(9600);
 }
@@ -110,30 +123,34 @@ void loop()
     casoS = 0;
     delay(200);
     break;
-  
+  case 3:
+    valor5 = valor5+5; // Incrementa el valor
+    EEPROM.put(dir5, valor5);
+
+    Serial.print("Valor Moneda 5: "); // Imprime un mensaje
+    Serial.println(valor5); // Imprime el valor
+
+    Serial.print("Valor Moneda 5 EEPROM:");
+    Serial.println(EEPROM.get(dir5, valor5));
+
+    casoS = 0;
+    delay(200);
+    break;
+  case 4:
+    valor10 = valor10+10; // Incrementa el valor
+    EEPROM.put(dir10, valor10);
+
+    Serial.print("Valor Moneda 10: "); // Imprime un mensaje
+    Serial.println(valor10); // Imprime el valor
+
+    Serial.print("Valor Moneda 10 EEPROM:");
+    Serial.println(EEPROM.get(dir10, valor10));
+
+    casoS = 0;
+    delay(200);
+    break;
   default:
     digitalWrite(ledPin, LOW); // Apaga el LED
     break;
   }
 }
-
-/*
-void encenderLED(int pin) {
-  digitalWrite(pin, HIGH);
-}
-
-void apagarLED(int pin) {
-  digitalWrite(pin, LOW);
-}
-
-void setup() {
-  pinMode(13, OUTPUT); // Define el pin del LED como salida
-}
-
-void loop() {
-  encenderLED(13); // Enciende el LED
-  delay(1000); // Espera 1 segundo
-  apagarLED(13); // Apaga el LED
-  delay(1000); // Espera 1 segundo
-}*/
-
