@@ -10,7 +10,14 @@
 #define OLED_CS 12
 #define OLED_RESET 13
 
+const int senM1 = 2;
+const int Led = 0;
+
 Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
+
+int valorSenM1 = 0;
+
+int count1 = 0;
 
 void setup()
 {
@@ -33,30 +40,61 @@ void setup()
     display.println("Eduardo Barquera"); // Carga la información al buffer
 
     display.display(); // Actualiza display con datos en Buffer
-    delay(3000); // Demora de 3 segundos.
+
+    pinMode(senM1, INPUT); // Configuración de pin de entrada
+    pinMode(Led, OUTPUT); // Configuramos salida LED
+
+    delay(2000); // Demora de 3 segundos.
 }
 
 void loop() 
 {
     display.clearDisplay(); // Borrar imagen en el OLED
-    
+
+    valorSenM1 = digitalRead(senM1); //Leemos el estado del sensor
+
     display.setTextSize(0.4);
+    
+    
+    if (valorSenM1 == HIGH)
+    {
+        count1++;
+        digitalWrite(Led, HIGH);
+                // ---- Monedas de 1 ----
+        
+    }
+    else
+    {
+        digitalWrite(Led, LOW);
+    }
+
     // ---- Monedas de 1 ----
     display.setCursor(0,0); // Definir posición Columna (0) Fila (0)
     display.println("Monedas 1:"); // Carga la información al buffer
+    
+    display.setCursor(60,0); // Definir posición Columna (0) Fila (0)
+    display.println(count1); // Carga la información al buffer
+
     // ---- Monedas de 2 ----
     display.setCursor(0,8); // Definir posición inicio texto Columna (0) Fila (15)
     display.println("Monedas 2:"); // Carga la información al buffer
+
     // ---- Monedas de 5 ----
     display.setCursor(0,16); // Definir posición inicio texto Columna (0) Fila (15)
     display.println("Monedas 5:"); // Carga la información al buffer
+
     // ---- Monedas de 10 ----
     display.setCursor(0,24); // Definir posición inicio texto Columna (0) Fila (15)
     display.println("Monedas 10:"); // Carga la información al buffer
 
+    // ---- Monedas TOTALES ----
     display.setCursor(85, 0);
     display.println("Total");
 
+    display.setCursor(90, 10);
+    display.println("0");
+
     display.display(); // Actualiza display con datos en Buffer
-    delay(2000); // Demora de 2 segundos.
+
+    delay(100); // Demora de 2 segundos.
 }
