@@ -22,9 +22,11 @@ int valor2 = 0; // Variable para almacenar el valor a imprimir
 int valor5 = 0; // Variable para almacenar el valor a imprimir
 int valor10 = 0; // Variable para almacenar el valor a imprimir
 
-// ----------- Variables para Almacenar en EEPROM -------------------
-int dirValor1 = 0;
-int dirValor2 = 3;
+// ----------- Direcciones para Almacenar en EEPROM -------------------
+int dir1 = 0;
+int dir2 = 3;
+int dir5 = 6;
+int dir10 = 9;
 
 // ----------- Variables de apoyo ----------------------
 int casoS = 0;
@@ -39,17 +41,15 @@ void setup() {
 
   pinMode(ledPin, OUTPUT); // Configura el pin del LED como salida
 
-  Serial.begin(9600);
-  
-  // ---------- SETUP  EEPROM ya mas de una vez -------------------------
-  // valorSenM1 = EEPROM.get(dirValor1, valor1);
-  // valorSenM2 = EEPROM.get(dirValor2, valor2);
+  // ---------- SETUP  EEPROM ya mas de una vez -------------------------//
+   valor1 = EEPROM.get(dir1, valor1); // Aquí asignamos el valor que tenga EEPROM a valor
+   valor2 = EEPROM.get(dir2, valor2);
 
-   ---------- SETUP para guardar datos EEPROM -------------------------
-   EEPROM.put(dirValor1, 0);
-  EEPROM.put(dirValor2, 0);
+  // ---------- SETUP para guardar datos EEPROM -------------------------
+   //EEPROM.put(dir1, 0);
+   //EEPROM.put(dir2, 0);
 
-  
+    Serial.begin(9600);
 }
 
 void loop() 
@@ -59,22 +59,22 @@ void loop()
   valorSenM5 = digitalRead(senM5);
   valorSenM10 = digitalRead(senM10);
 
-  if (valorSenM1 == HIGH)
+  if (valorSenM1 == LOW)
   {
     casoS = 1;
     //delay(200);
   }
-  else if (valorSenM2 == HIGH)
+  else if (valorSenM2 == LOW)
   {
     casoS = 2;
     //delay(200);
   }
-  else if (valorSenM5 == HIGH)
+  else if (valorSenM5 == LOW)
   {
     casoS = 3;
     //delay(200);
   }
-  else if (valorSenM10 == HIGH)
+  else if (valorSenM10 == LOW)
   {
     casoS = 4;
     //delay(200);
@@ -86,22 +86,26 @@ void loop()
   case 1:
     digitalWrite(ledPin, HIGH); // Enciende el LED
     valor1++; // Incrementa el valor
-    EEPROM.put(dirValor1, valor1);
+    EEPROM.put(dir1, valor1);
 
     Serial.print("Valor Moneda 1: "); // Imprime un mensaje
-    
-
     Serial.println(valor1); // Imprime el valor
-    
+
+    Serial.print("Valor Moneda 1 EEPROM:");
+    Serial.println(EEPROM.get(dir1, valor1));
+
     casoS = 0;
     delay(200);
     break;
   case 2:
     valor2 = valor2+2; // Incrementa el valor
+    EEPROM.put(dir2, valor2);
 
     Serial.print("Valor Moneda 2: "); // Imprime un mensaje
-
     Serial.println(valor2); // Imprime el valor
+
+    Serial.print("Valor Moneda 2 EEPROM:");
+    Serial.println(EEPROM.get(dir2, valor2));
 
     casoS = 0;
     delay(200);
@@ -112,9 +116,6 @@ void loop()
     break;
   }
 }
-
-
-
 
 /*
 void encenderLED(int pin) {
