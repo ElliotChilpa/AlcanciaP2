@@ -10,13 +10,17 @@
 #define OLED_CS 12
 #define OLED_RESET 13
 
+// ------- Asignamos Pines --------
 const int senM1 = 2;
-const int Led = 0;
+const int Led = 13;
 
+// ------- Libreria OLED ----------
 Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
 
+// ------- Variables para almacenar estado de sensor --------
 int valorSenM1 = 0;
 
+// -------- Variables de apoyo -----------
 int count1 = 0;
 
 void setup()
@@ -32,10 +36,10 @@ void setup()
     // ---- Elliot ----
     display.setCursor(0,8); // Definir posición inicio texto Columna (0) Fila (15)
     display.println("Elliot Chilpa"); // Carga la información al buffer
-    // ---- Monedas de 5 ----
+    // ---- Edgar ----
     display.setCursor(0,16); // Definir posición inicio texto Columna (0) Fila (15)
     display.println("Edgar Yanez"); // Carga la información al buffer
-    // ---- Monedas de 10 ----
+    // ---- Eduardo Barquera ----
     display.setCursor(0,24); // Definir posición inicio texto Columna (0) Fila (15)
     display.println("Eduardo Barquera"); // Carga la información al buffer
 
