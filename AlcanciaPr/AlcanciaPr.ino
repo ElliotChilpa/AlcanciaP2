@@ -14,20 +14,20 @@
 #define OLED_RESET 13
 
 // ------------ Asignamos Botones a utilizar ----------------
-//const int senM1 = 2; // Define el pin del botón
-//const int senM2 = 3; // Define el pin del botón
-//const int senM5 = 4; // Define el pin del botón
-//const int senM10 = 6; // Define el pin del botón
+const int senM1 = 3; // Define el pin del botón
+const int senM2 = 4; // Define el pin del botón
+const int senM5 = 5; // Define el pin del botón
+const int senM10 = 6; // Define el pin del botón
 //const int ledPin = 13; // Define el pin del LED
-//const int senRESET = 8; // Definimos el pin para resetear
+const int senRESET = 7; // Definimos el pin para resetear
 
 // ------------ Asignamos Botones a utilizar ----------------
-#define senM1 2 // Define el pin del botón
-#define senM2 3 // Define el pin del botón
-#define senM5 4 // Define el pin del botón
-#define senM10 8 // Define el pin del botón
+//#define senM1 2 // Define el pin del botón
+//#define senM2 3 // Define el pin del botón
+//#define senM5 4 // Define el pin del botón
+//#define senM10 5 // Define el pin del botón
 //const int ledPin = 13; // Define el pin del LED
-#define senRESET 6 // Definimos el pin para resetear
+//#define senRESET 7 // Definimos el pin para resetear
 
 // ------- Libreria OLED ----------
 Adafruit_SSD1306 display(OLED_MOSI, OLED_CLK, OLED_DC, OLED_RESET, OLED_CS);
@@ -178,7 +178,7 @@ void setup() {
   // ---------- SETUP  EEPROM -------------------------//
   valorSenRESET = digitalRead(senRESET);
   delay(100);
-  if (valorSenRESET == LOW) // Modificar conado tengamos el Switch
+  if (valorSenRESET == HIGH) // Modificar conado tengamos el Switch
   {
     // ---------- SETUP para guardar datos EEPROM 0-------------------------
     EEPROM.put(dir1, 0);
@@ -186,7 +186,7 @@ void setup() {
     EEPROM.put(dir5, 0); 
     EEPROM.put(dir10, 0); 
   }
-  else if (valorSenRESET == HIGH)
+  else if (valorSenRESET == LOW)
   {
     // ---------- SETUP  EEPROM ya mas de una vez -------------------------//
     valor1 = EEPROM.get(dir1, valor1); // Aquí asignamos el valor que tenga EEPROM a valor
@@ -204,17 +204,17 @@ void loop()
   valorSenM5 = digitalRead(senM5);
   valorSenM10 = digitalRead(senM10);
 
-  if (valorSenM1 == LOW)
+  if (valorSenM1 == HIGH)
   {
     casoS = 1;
     //delay(200);
   }
-  else if (valorSenM2 == LOW)
+  else if (valorSenM2 == HIGH)
   {
     casoS = 2;
     //delay(200);
   }
-  else if (valorSenM5 == LOW)
+  else if (valorSenM5 == HIGH)
   {
     casoS = 3;
     //delay(200);
@@ -233,7 +233,9 @@ void loop()
     valor1 = valor1+1; // Incrementa el valor
     
     EEPROM.put(dir1, valor1);
+    
     imprimirValorSerial(valor1, valor2, valor5, valor10);
+    imprimirValorOLED(valor1, valor2, valor5, valor10);
 
     casoS = 0;
     delay(200);
@@ -243,6 +245,7 @@ void loop()
     
     EEPROM.put(dir2, valor2);
     imprimirValorSerial(valor1, valor2, valor5, valor10);
+    imprimirValorOLED(valor1, valor2, valor5, valor10);
 
     casoS = 0;
     delay(200);
@@ -252,6 +255,7 @@ void loop()
     
     EEPROM.put(dir5, valor5);
     imprimirValorSerial(valor1, valor2, valor5, valor10);
+    imprimirValorOLED(valor1, valor2, valor5, valor10);
    
     casoS = 0;
     delay(200);
@@ -261,6 +265,7 @@ void loop()
     
     EEPROM.put(dir10, valor10);
     imprimirValorSerial(valor1, valor2, valor5, valor10);
+    imprimirValorOLED(valor1, valor2, valor5, valor10);
  
     casoS = 0;
     delay(200);
