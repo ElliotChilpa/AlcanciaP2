@@ -7,7 +7,7 @@ const int senM2 = 3; // Define el pin del botón
 const int senM5 = 4; // Define el pin del botón
 const int senM10 = 6; // Define el pin del botón
 const int ledPin = 13; // Define el pin del LED
-const int senRESET = 7; // Definimos el pin para resetear
+const int senRESET = 8; // Definimos el pin para resetear
 
 // ------------ Variables para almacenar el estado del boton ----------
 int valorSenM1 = 0;
@@ -39,25 +39,25 @@ void imprimirValor(int v1, int v2, int v5, int v10)
     int totalAC = v1 + v2 + v5 + v10;
     Serial.println("-------------"); // Imprime un mensaje
 ////////////////////////////
-    Serial.print("Valor Moneda 1: "); // Imprime un mensaje
-    Serial.println(v1); // Imprime el valor
-    //Serial.print("Valor Moneda 1 EEPROM:");
-    //Serial.println(EEPROM.get(dir1, v1));
+    //Serial.print("Valor Moneda 1: "); // Imprime un mensaje
+    //Serial.println(v1); // Imprime el valor
+    Serial.print("Valor Moneda 1 EEPROM:");
+    Serial.println(EEPROM.get(dir1, valor1));
 ///////////////////////////
-    Serial.print("Valor Moneda 2: "); // Imprime un mensaje
-    Serial.println(v2); // Imprime el valor
-    //Serial.print("Valor Moneda 2 EEPROM:");
-    //Serial.println(EEPROM.get(dir2, v2));
+    //Serial.print("Valor Moneda 2: "); // Imprime un mensaje
+    //Serial.println(v2); // Imprime el valor
+    Serial.print("Valor Moneda 2 EEPROM:");
+    Serial.println(EEPROM.get(dir2, valor2));
 ///////////////////////////
-    Serial.print("Valor Moneda 5: "); // Imprime un mensaje
-    Serial.println(v5); // Imprime el valor
-    //Serial.print("Valor Moneda 5 EEPROM:");
-    //Serial.println(EEPROM.get(dir5, v5));
+    //Serial.print("Valor Moneda 5: "); // Imprime un mensaje
+    //Serial.println(v5); // Imprime el valor
+    Serial.print("Valor Moneda 5 EEPROM:");
+    Serial.println(EEPROM.get(dir5, valor5));
 ////////////////////////
-    Serial.print("Valor Moneda 10: "); // Imprime un mensaje
-    Serial.println(v10); // Imprime el valor
-    //Serial.print("Valor Moneda 10 EEPROM:");
-    //Serial.println(EEPROM.get(dir10, v10));
+    //Serial.print("Valor Moneda 10: "); // Imprime un mensaje
+    //Serial.println(v10); // Imprime el valor
+    Serial.print("Valor Moneda 10 EEPROM:");
+    Serial.println(EEPROM.get(dir10, valor10));
 
     Serial.print("Total: ");
     Serial.println(totalAC);
@@ -129,7 +129,7 @@ void loop()
   switch (casoS)
   {
   case 1:
-    digitalWrite(ledPin, HIGH); // Enciende el LED
+    //digitalWrite(ledPin, HIGH); // Enciende el LED
     valor1 = valor1+1; // Incrementa el valor
     //totalDi+valor1;
     EEPROM.put(dir1, valor1);
@@ -167,7 +167,7 @@ void loop()
     break;
   
   default:
-    digitalWrite(ledPin, LOW); // Apaga el LED
+    //digitalWrite(ledPin, LOW); // Apaga el LED
     //totalDi = valor1 + valor2 + valor5 + valor10;
       break;
   }
